@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.kuilei.zhuyi.R;
 import com.kuilei.zhuyi.adapter.NewsFragmentPagerAdapter;
 import com.kuilei.zhuyi.bean.ChannelItem;
-import com.kuilei.zhuyi.bean.ChannelManage;
 import com.kuilei.zhuyi.fragment.NewsFragment_;
 import com.kuilei.zhuyi.utils.BaseTools;
 import com.kuilei.zhuyi.view.LeftView;
@@ -25,7 +24,6 @@ import com.umeng.update.UmengUpdateAgent;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -112,7 +110,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initColumnData() {
-        userChannelLists = ((ArrayList<ChannelItem>) ChannelManage.getManage(App.getApp.getSQLHelper()).getUserChannel());
+     //   userChannelLists = ((ArrayList<ChannelItem>) ChannelManage.getManage(App.getApp.getSQLHelper()).getUserChannel());
         initTabColumn();
         initFragment();
 
