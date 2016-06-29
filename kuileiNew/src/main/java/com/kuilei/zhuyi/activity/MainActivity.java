@@ -2,13 +2,20 @@ package com.kuilei.zhuyi.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.kuilei.zhuyi.R;
+import com.kuilei.zhuyi.adapter.NewsFragmentPagerAdapter;
 import com.kuilei.zhuyi.bean.ChannelItem;
+import com.kuilei.zhuyi.bean.ChannelManage;
+import com.kuilei.zhuyi.fragment.NewsFragment_;
 import com.kuilei.zhuyi.utils.BaseTools;
 import com.kuilei.zhuyi.view.LeftView;
 import com.kuilei.zhuyi.view.LeftView_;
@@ -17,6 +24,8 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
 import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -66,11 +75,11 @@ public class MainActivity extends BaseActivity {
 
     public static boolean isChange = false;
 
-  //  private NewsFragmentPagerAdapter mAdapetr;
+    private NewsFragmentPagerAdapter mAdapetr;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.main);
 //    }
     @AfterInject
     void init()
@@ -85,14 +94,100 @@ public class MainActivity extends BaseActivity {
         fragments = new ArrayList<Fragment>();
     }
 
-    void initViews()
+
+    @AfterViews
+    void initView()
     {
         try {
             initSlidingMenu();
+            initViewPager();
+            setChangeView();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void setChangeView() {
+        initColumnData();
+    }
+
+    private void initColumnData() {
+        userChannelLists = ((ArrayList<ChannelItem>) ChannelManage.getManage(App.getApp.getSQLHelper()).getUserChannel());
+        initTabColumn();
+        initFragment();
+
+    }
+
+    private void initFragment() {
+        fragments.clear();
+        int count = userChannelLists.size();
+        for (int i = 0; i < count; i++)
+        {
+            String nameString = userChannelLists.get(i).getName();
+            fragments.add(initFragment(nameString));
+        }
+        mAdapetr.appendList(fragments);
+    }
+
+    private Fragment initFragment(String channelName) {
+        return new NewsFragment_();
+    }
+
+    private void initTabColumn() {
+        mRadioGroup_content.removeAllViews();
+        int count = userChannelLists.size();
+        mColumnHorizontalScrollView.setParam(this, mScreenWidth, mRadioGroup_content, shade_left, shade_right, ll_more_columns, rl_column);
+        for (int i = 0; i < count; i++)
+        {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mItemWidth, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.leftMargin = 5;
+            params.rightMargin = 5;
+
+            TextView columnTextView = new TextView(this);
+            columnTextView.setTextAppearance(this,R.style.top_category_scroll_view_item_text);
+            columnTextView.setBackgroundResource(R.drawable.radio_button_bg);
+            columnTextView.setGravity(Gravity.CENTER);
+            columnTextView.setPadding(5, 5, 5, 5);
+            columnTextView.setId(i);
+            columnTextView.setText(userChannelLists.get(i).getName());
+            columnTextView.setTextColor(getResources().getColorStateList(R.color.top_category_scroll_text_color_day));
+            if (columnSelectIndex == i)
+            {
+                columnTextView.setSelected(true);
+            }
+            columnTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            mRadioGroup_content.addView(columnTextView, i, params);
+        }
+    }
+
+    private void initViewPager() {
+        mAdapetr = new NewsFragmentPagerAdapter(getSupportFragmentManager());
+        mViewPager.setOffscreenPageLimit(1);
+        mViewPager.setAdapter(mAdapetr);
+        mViewPager.addOnPageChangeListener(pageListener);
+    }
+
+    public ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
     private void initSlidingMenu() {
         mLeftView = LeftView_.build(this);

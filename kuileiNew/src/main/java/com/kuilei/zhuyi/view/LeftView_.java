@@ -1,6 +1,7 @@
 package com.kuilei.zhuyi.view;
 
 import android.content.Context;
+import android.view.View;
 
 import com.kuilei.zhuyi.R;
 
@@ -45,6 +46,15 @@ public class LeftView_ extends LeftView implements HasViews, OnViewChangedListen
 
     @Override
     public void onViewChanged(HasViews hasViews) {
+        View view = hasViews.findViewById(R.id.more);
+        if (view != null)
+        {
+            view.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
+        }
     }
 }

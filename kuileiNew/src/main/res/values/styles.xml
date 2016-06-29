@@ -26,4 +26,23 @@
         <item name="android:gravity">left|center_vertical</item>
     </style>
 
+
+    <style name="top_category_scroll_view_item_text">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="title_text_style">
+        <item name="android:textSize">20.0sp</item>
+        <item name="android:textColor">@color/title_text_color</item>
+    </style>
+
+    <style name="deail_title_text_style" parent="@style/title_text_style">
+        <item name="android:textColor">@color/detail_title_text_color</item>
+    </style>
+    
+    <style name="activityProgressBarStyleLarge">
+        <item name="android:indeterminateDrawable">@drawable/progress_large_white</item>
+    </style>
 </resources>

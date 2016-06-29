@@ -9,12 +9,14 @@
     <color name="head_pressed_bg_stroke">#ff530000</color>
     <color name="head_pressed_bg_solid">#ffffffff</color>
     <color name="head_normal_bg_stroke">#ffa50303</color>
-
+    <color name="title_text_color">#ffffffff</color>
     <color name="badge_title_bar_solid">#fff5f5f5</color>
     <color name="badge_title_bar_stroke">#ffcc3131</color>
+    <color name="detail_title_text_color">#ff999999</color>
 
     <color name="sliding_back_shadow_start">#00000000</color>
     <color name="sliding_back_shadow_end">#4c000000</color>
 
     <color name="gray">#ff808080</color>
+    <color name="main_red">#ffcc3131</color>
 </resources>
