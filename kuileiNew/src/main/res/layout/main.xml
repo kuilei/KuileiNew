@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:scrollbars="none"
-                >
+                android:fillViewport="false">
                 <LinearLayout
                     android:id="@+id/mRadioGroup_content"
                     android:layout_width="fill_parent"

@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.kuilei.zhuyi.R;
 import com.kuilei.zhuyi.adapter.NewsFragmentPagerAdapter;
 import com.kuilei.zhuyi.bean.ChannelItem;
-import com.kuilei.zhuyi.fragment.NewsFragment_;
 import com.kuilei.zhuyi.utils.BaseTools;
 import com.kuilei.zhuyi.view.LeftView;
 import com.kuilei.zhuyi.view.LeftView_;
@@ -24,10 +23,11 @@ import com.umeng.update.UmengUpdateAgent;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
-
+@EActivity(R.layout.main)
 public class MainActivity extends BaseActivity {
     /** 自定义HorizontalScrollView */
     @ViewById(R.id.mColumnHorizontalScrollView)
@@ -122,14 +122,14 @@ public class MainActivity extends BaseActivity {
         for (int i = 0; i < count; i++)
         {
             String nameString = userChannelLists.get(i).getName();
-            fragments.add(initFragment(nameString));
+            //fragments.add(initFragment(nameString));
         }
         mAdapetr.appendList(fragments);
     }
 
-    private Fragment initFragment(String channelName) {
-        return new NewsFragment_();
-    }
+   // private Fragment initFragment(String channelName) {
+   //     return new NewsFragment_();
+   // }
 
     private void initTabColumn() {
         mRadioGroup_content.removeAllViews();
