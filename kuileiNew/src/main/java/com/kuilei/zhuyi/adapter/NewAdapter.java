@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.kuilei.zhuyi.bean.NewModle;
+import com.kuilei.zhuyi.view.NewItemView;
+import com.kuilei.zhuyi.view.NewItemView_;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -57,7 +59,7 @@ public class NewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        NewItemView newItemView;
+        NewItemView newItemView = null;
 
         if (convertView == null) {
             newItemView = NewItemView_.build(context);

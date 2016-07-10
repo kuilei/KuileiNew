@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.kuilei.zhuyi.activity.BaseActivity;
-import com.kuilei.zhuyi.utils.ACache;
+import com.kuilei.zhuyi.http.Url;
 import com.kuilei.zhuyi.utils.StringUtils;
 
 /**
@@ -22,12 +22,17 @@ public class BaseFragment extends Fragment {
 
     public String getNewUrl(String index)
     {
-        //String urlString = Url.TopUrl + Url.TopId + "/" + index + Url.endUrl;
-       // return urlString;
-        return null;
+        String urlString = Url.TopUrl + Url.TopId + "/" + index + Url.endUrl;
+        return urlString;
     }
 
 
+    public boolean isNullString(String imgUrl) {
 
+        if (StringUtils.isEmpty(imgUrl)) {
+            return true;
+        }
+        return false;
+    }
 
 }

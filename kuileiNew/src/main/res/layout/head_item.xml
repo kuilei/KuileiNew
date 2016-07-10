@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <com.tiger.quicknews.wedget.viewimage.Animations.SliderLayout
+    <com.kuilei.zhuyi.webget.viewimage.animations.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
         grid:pager_animation="Accordion"
@@ -15,7 +15,7 @@
         grid:pager_animation_span="1100"
         android:layout_height="200dp"/>
 
-    <com.tiger.quicknews.wedget.viewimage.Indicators.PagerIndicator
+    <com.kuilei.zhuyi.webget.viewimage.indicators.PagerIndicator
         android:id="@+id/custom_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

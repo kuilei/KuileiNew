@@ -1,10 +1,10 @@
 
 package com.kuilei.zhuyi.webget.slidingMenu;
-
 import android.graphics.Canvas;
 import android.view.animation.Interpolator;
 
-import com.tiger.quicknews.wedget.slidingmenu.SlidingMenu.CanvasTransformer;
+import com.kuilei.zhuyi.webget.slidingMenu.SlidingMenu.CanvasTransformer;
+
 
 public class CanvasTransformerBuilder {
 
