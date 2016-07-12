@@ -6,7 +6,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.kuilei.zhuyi.utils.ACache;
-import com.kuilei.zhuyi.utils.HttpUtil;
+import com.kuilei.zhuyi.utils.HttpUtils;
 import com.kuilei.zhuyi.utils.StringUtils;
 import com.kuilei.zhuyi.webget.slideingactivity.SlidingActivity;
 
@@ -32,7 +32,7 @@ public class BaseActivity extends SlidingActivity {
      */
 
     public boolean hasNetWork() {
-        return HttpUtil.isNetworkAvailable(this);
+        return HttpUtils.isNetworkAvailable(this);
     }
 
     /**

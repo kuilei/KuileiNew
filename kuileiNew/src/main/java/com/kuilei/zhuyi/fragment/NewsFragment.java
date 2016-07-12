@@ -13,10 +13,11 @@ import com.kuilei.zhuyi.bean.NewModle;
 import com.kuilei.zhuyi.http.Url;
 import com.kuilei.zhuyi.http.json.NewListJson;
 import com.kuilei.zhuyi.initview.InitView;
-import com.kuilei.zhuyi.utils.HttpUtil;
+import com.kuilei.zhuyi.utils.OkHttpUtil;
 import com.kuilei.zhuyi.utils.Logger;
 import com.kuilei.zhuyi.utils.StringUtils;
 import com.kuilei.zhuyi.webget.swiptlistview.SwipeListView;
+import com.kuilei.zhuyi.webget.viewimage.animations.DescriptionAnimation;
 import com.kuilei.zhuyi.webget.viewimage.animations.SliderLayout;
 import com.kuilei.zhuyi.webget.viewimage.slidertypes.BaseSliderView;
 import com.kuilei.zhuyi.webget.viewimage.slidertypes.TextSliderView;
@@ -80,6 +81,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_item, null);
         mDemoSlider = (SliderLayout) headView.findViewById(R.id.slider);
         mListView.addHeaderView(headView);
+        //设置list的item动画
         AnimationAdapter animationAdapter = new CardsAnimationAdapter(newAdapter);
         animationAdapter.setAbsListView(mListView);
         mListView.setAdapter(animationAdapter);
@@ -116,7 +118,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     void loadNewList(String url) {
         String result;
         try {
-            result = HttpUtil.getByHttpClient(getActivity(), url);
+            result = OkHttpUtil.getAsString(url);
             if (!StringUtils.isEmpty(result)) {
                 getResult(result);
             } else {
@@ -129,6 +131,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @UiThread
     public void getResult(String result) {
+        //设置缓存
         getMyActivity().setCacheStr("NewsFragment" + currentPagte, result);
         if (isRefresh)
         {
@@ -138,6 +141,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         }
         mProgressBar.setVisibility(View.GONE);
         swipeLayout.setRefreshing(false);
+        //解析数据
         List<NewModle> list = NewListJson.instance(getActivity()).readJsonNewModles(result, Url.TopId);
         if (index == 0 && list.size() >= 4) {
             initSliderLayout(list);
@@ -170,6 +174,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             url_maps.put(newModles.get(3).getTitle(), newModles.get(3).getImgsrc());
 
         for (String name : url_maps.keySet()) {
+            //控件view在addSlider中初始化
             TextSliderView textSliderView = new TextSliderView(getActivity());
             textSliderView.setOnSliderClickListener(this);
             textSliderView
@@ -178,13 +183,17 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
             textSliderView.getBundle()
                     .putString("extra", name);
+            Logger.w(TAG,"description="+name);
             Logger.w(TAG,"textSliderView="+textSliderView);
             mDemoSlider.addSlider(textSliderView);
         }
 
+        //设置折叠动画
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom);
-       // mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+        //设置指示器位置
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Left_Bottom);
+        //轮播提示信息动画显示
+        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         newAdapter.appendList(newModles);
     }
 

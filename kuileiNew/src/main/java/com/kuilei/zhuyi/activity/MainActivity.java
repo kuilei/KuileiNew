@@ -15,10 +15,13 @@ import com.kuilei.zhuyi.R;
 import com.kuilei.zhuyi.adapter.NewsFragmentPagerAdapter;
 import com.kuilei.zhuyi.bean.ChannelItem;
 import com.kuilei.zhuyi.fragment.NewsFragment_;
+import com.kuilei.zhuyi.initview.SlidingMenuView;
 import com.kuilei.zhuyi.utils.BaseTools;
 import com.kuilei.zhuyi.utils.Logger;
 import com.kuilei.zhuyi.view.LeftView;
+import com.kuilei.zhuyi.view.LeftView_;
 import com.kuilei.zhuyi.webget.ColumnHorizontalScrollView;
+import com.kuilei.zhuyi.webget.slidingMenu.SlidingMenu;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
@@ -50,7 +53,7 @@ public class MainActivity extends BaseActivity {
     @ViewById(R.id.shade_right)
     protected ImageView shade_right;
     protected LeftView mLeftView;
-    // protected SlidingMenu side_drawer;
+     protected SlidingMenu side_drawer;
     /**
      * 屏幕宽度
      */
@@ -111,7 +114,7 @@ public class MainActivity extends BaseActivity {
     void initView() {
         Logger.w(TAG,"initView");
         try {
-          //  initSlidingMenu();
+            initSlidingMenu();
             initViewPager();
             setChangeView();
         } catch (Exception e) {
@@ -212,8 +215,8 @@ public class MainActivity extends BaseActivity {
     };
 
     private void initSlidingMenu() {
- //       mLeftView = LeftView_.build(this);
-//        side_drawer = Sli
+        mLeftView = LeftView_.build(this);
+        side_drawer = SlidingMenuView.instance().initSlidingMenuView(this, mLeftView);
     }
 
 }

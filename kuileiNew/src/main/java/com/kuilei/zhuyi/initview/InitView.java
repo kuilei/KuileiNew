@@ -69,15 +69,15 @@ public class InitView {
      */
     public void initListView(SwipeListView mListView, Context context) {
         SettingsManager settings = SettingsManager.getInstance();
-        mListView.setSwipeMode(SwipeListView.SWIPE_MODE_NONE);
-        mListView.setSwipeActionLeft(settings.getSwipeActionLeft());
-        mListView.setSwipeActionRight(settings.getSwipeActionRight());
+        mListView.setSwipeMode(SwipeListView.SWIPE_MODE_NONE);//不可以左右滑动
+        mListView.setSwipeActionLeft(settings.getSwipeActionLeft());//左滑动显示item
+        mListView.setSwipeActionRight(settings.getSwipeActionRight());//右滑动显示item
         mListView.setOffsetLeft(ScreenUtils.convertDpToPixel(context,
-                settings.getSwipeOffsetLeft()));
+                settings.getSwipeOffsetLeft()));//左偏移量
         mListView.setOffsetRight(ScreenUtils.convertDpToPixel(context,
-                settings.getSwipeOffsetRight()));
-        mListView.setAnimationTime(settings.getSwipeAnimationTime());
-        mListView.setSwipeOpenOnLongPress(settings.isSwipeOpenOnLongPress());
+                settings.getSwipeOffsetRight()));//右偏移量
+        mListView.setAnimationTime(settings.getSwipeAnimationTime());//动画时间长度
+        mListView.setSwipeOpenOnLongPress(settings.isSwipeOpenOnLongPress());//长按时触发显示
     }
 
 }

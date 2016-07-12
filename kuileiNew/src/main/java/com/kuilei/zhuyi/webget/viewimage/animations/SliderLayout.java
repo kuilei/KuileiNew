@@ -44,9 +44,6 @@ import java.util.TimerTask;
 
 /**
  * SliderLayout is compound layout. This is combined with
- * {@link com.example.androidimageslider.wedget.viewimage.Indicators.daimajia.slider.library.Indicators.PagerIndicator}
- * and
- * {@link com.example.androidimageslider.wedget.viewimage.Tricks.daimajia.slider.library.Tricks.ViewPagerEx}
  * . There is some properties you can set in XML: indicator_visibility visible
  * invisible indicator_shape oval rect indicator_selected_color
  * indicator_unselected_color indicator_selected_drawable
@@ -70,44 +67,36 @@ public class SliderLayout extends RelativeLayout {
     private SliderAdapter mSliderAdapter;
 
     /**
-     * {@link com.example.androidimageslider.wedget.viewimage.Tricks.daimajia.slider.library.Tricks.ViewPagerEx}
      * indicator.
      */
     private PagerIndicator mIndicator;
 
     /**
      * A timer and a TimerTask using to cycle the
-     * {@link com.example.androidimageslider.wedget.viewimage.Tricks.daimajia.slider.library.Tricks.ViewPagerEx}
-     * .
      */
     private Timer mCycleTimer;
     private TimerTask mCycleTask;
 
     /**
      * For resuming the cycle, after user touch or click the
-     * {@link com.example.androidimageslider.wedget.viewimage.Tricks.daimajia.slider.library.Tricks.ViewPagerEx}
-     * .
      */
     private Timer mResumingTimer;
     private TimerTask mResumingTask;
 
     /**
      * If
-     * {@link com.example.androidimageslider.wedget.viewimage.Tricks.daimajia.slider.library.Tricks.ViewPagerEx}
      * is Cycling
      */
     private boolean mCycling;
 
     /**
      * If auto recover after user touch the
-     * {@link com.example.androidimageslider.wedget.viewimage.Tricks.daimajia.slider.library.Tricks.ViewPagerEx}
      */
     private boolean mAutoRecover;
 
     private int mTransformerId;
 
     /**
-     * {@link com.example.androidimageslider.wedget.viewimage.Tricks.daimajia.slider.library.Tricks.ViewPagerEx}
      * transformer time span.
      */
     private int mTransformerSpan;
@@ -116,23 +105,19 @@ public class SliderLayout extends RelativeLayout {
 
     /**
      * Visibility of
-     * {@link com.example.androidimageslider.wedget.viewimage.Indicators.daimajia.slider.library.Indicators.PagerIndicator}
      */
     private PagerIndicator.IndicatorVisibility mIndicatorVisibility = PagerIndicator.IndicatorVisibility.Visible;
 
     /**
-     * {@link com.example.androidimageslider.wedget.viewimage.Tricks.daimajia.slider.library.Tricks.ViewPagerEx}
      * 's transformer
      */
     private BaseTransformer mViewPagerTransformer;
 
     /**
-     * @see com.example.androidimageslider.wedget.viewimage.Animations.daimajia.slider.library.Animations.BaseAnimationInterface
      */
     private BaseAnimationInterface mCustomAnimation;
 
     /**
-     * {@link com.example.androidimageslider.wedget.viewimage.Indicators.daimajia.slider.library.Indicators.PagerIndicator}
      * shape, rect or oval.
      */
 

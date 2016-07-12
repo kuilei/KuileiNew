@@ -40,6 +40,7 @@ public class SliderAdapter extends PagerAdapter implements BaseSliderView.ImageL
     }
 
     public <T extends BaseSliderView> void addSlider(T slider) {
+        Logger.w(TAG,"addslider = "+slider);
         slider.setOnImageLoadListener(this);
         mImageContents.add(slider);
         notifyDataSetChanged();
@@ -48,15 +49,19 @@ public class SliderAdapter extends PagerAdapter implements BaseSliderView.ImageL
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         BaseSliderView b = mImageContents.get(position);
-        View v = b.getView();
+        //初始化具体view
+        View v =  b.getView();
         container.addView(v);
         return v;
     }
 
+    //需添加，不然图片轮播不显示
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return false;
+        return view == object;
     }
+
+
 
     @Override
     public void onStart(BaseSliderView target) {
