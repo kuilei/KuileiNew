@@ -23,4 +23,12 @@
     <!-- 下拉刷新  end -->
 
     <string name="not_network">暂无网络</string>
+
+    <!--图片显示进度提示-->
+    <string name="content_desc_pinned_downloaded">Pinned to device and downloaded</string>
+    <string name="content_desc_pinned_downloading">Pinned to device and downloading</string>
+      <string name="content_desc_pinned_not_downloaded">Pinned to device and waiting to download</string>
+    <string name="content_desc_unpinned_downloaded">Temporarily downloaded</string>
+    <string name="content_desc_unpinned_downloading">Temporarily downloading</string>
+    <string name="content_desc_unpinned_not_downloaded">Not downloaded</string>
 </resources>

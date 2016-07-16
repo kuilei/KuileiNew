@@ -1,20 +1,25 @@
 package com.kuilei.zhuyi.fragment;
 
 import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.kuilei.zhuyi.R;
+import com.kuilei.zhuyi.activity.BaseActivity;
+import com.kuilei.zhuyi.activity.DetailsActivity_;
+import com.kuilei.zhuyi.activity.ImageDetailActivity_;
 import com.kuilei.zhuyi.adapter.CardsAnimationAdapter;
 import com.kuilei.zhuyi.adapter.NewAdapter;
 import com.kuilei.zhuyi.bean.NewModle;
 import com.kuilei.zhuyi.http.Url;
 import com.kuilei.zhuyi.http.json.NewListJson;
 import com.kuilei.zhuyi.initview.InitView;
-import com.kuilei.zhuyi.utils.OkHttpUtil;
 import com.kuilei.zhuyi.utils.Logger;
+import com.kuilei.zhuyi.utils.OkHttpUtil;
 import com.kuilei.zhuyi.utils.StringUtils;
 import com.kuilei.zhuyi.webget.swiptlistview.SwipeListView;
 import com.kuilei.zhuyi.webget.viewimage.animations.DescriptionAnimation;
@@ -28,6 +33,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
@@ -191,7 +197,7 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         //设置折叠动画
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         //设置指示器位置
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Left_Bottom);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom);
         //轮播提示信息动画显示
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
         newAdapter.appendList(newModles);
@@ -199,11 +205,44 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-
+        Logger.w(TAG,"onRefresh");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    currentPagte = 1;
+                    isRefresh = true;
+                    loadData(getNewUrl("0"));
+                    url_maps.clear();
+                    mDemoSlider.removeAllViews();
+                }
+            },2000);
     }
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
+        Logger.w(TAG, "getUrl="+slider.getUrl());
+            NewModle newModle = newHashMap.get(slider.getUrl());
+            enterDetailActivity(newModle);
+    }
 
+    @ItemClick(R.id.listview)
+    protected void onItemClick(int position) {
+        NewModle newModle = listsModles.get(position - 1);
+        enterDetailActivity(newModle);
+    }
+
+    private void enterDetailActivity(NewModle newModle) {
+        Logger.w(TAG,"enterDetailActivity");
+        Logger.w(TAG,"getImagesModle="+newModle.getImagesModle());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("newModle",newModle);
+        Class<?> class1 = null;
+        if (newModle.getImagesModle() != null /*&& newModle.getImagesModle().getImgList().size() > 1*/) {
+            class1 = ImageDetailActivity_.class;
+        } else {
+             class1 = DetailsActivity_.class;
+        }
+
+        ((BaseActivity)getActivity()).openActivity(class1, bundle, 0);
     }
 }

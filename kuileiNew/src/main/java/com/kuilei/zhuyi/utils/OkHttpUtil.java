@@ -7,6 +7,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
 
 /**
@@ -65,6 +66,11 @@ public class OkHttpUtil {
         Response execute = _getAsyn(url);
         String str = new String(execute.body().bytes(),"UTF-8");
         return str;
+    }
+
+    private InputStream _getAsInputStream(String url) throws IOException {
+        Response execute = _getAsyn(url);
+        return execute.body().byteStream();
     }
 
 
@@ -129,6 +135,10 @@ public class OkHttpUtil {
 
     public static void getAsyn(String url, ResultCallback callback) {
         getInstance()._getAsyn(url, callback);
+    }
+
+    public static InputStream getAsInputStream(String url) throws IOException {
+        return getInstance()._getAsInputStream(url);
     }
 
 //    public static String getByHttpClient(Context context, String strUrl) throws Exception {
