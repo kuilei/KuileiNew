@@ -72,6 +72,18 @@ public class BaseActivity extends SlidingActivity {
         }
     }
 
+    /**
+     * 更具类打开acitvity
+     */
+    public void openActivity(Class<?> pClass) {
+        openActivity(pClass, null, 0);
+
+    }
+
+    public void openActivityForResult(Class<?> pClass, int requestCode){
+        openActivity(pClass, null, requestCode);
+    }
+
 
     public void openActivity(Class<?> pClass, Bundle bundle, int requestCode) {
         Intent intent = new Intent(this, pClass);
@@ -81,6 +93,8 @@ public class BaseActivity extends SlidingActivity {
 
         if (requestCode == 0) {
             IntentUtils.startPreviewActivity(this, intent, 0);
+        }else {
+            IntentUtils.startPreviewActivity(this, intent, requestCode);
         }
     }
 
@@ -101,6 +115,8 @@ public class BaseActivity extends SlidingActivity {
             progressDialog.dismiss();
         }
     }
+
+
 
     public void doBack(View view) {
         onBackPressed();

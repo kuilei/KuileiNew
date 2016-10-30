@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,6 +32,7 @@
         <activity android:name=".activity.ImageDetailActivity_" />
         <activity android:name=".activity.DetailsActivity_"
                  android:theme="@style/SlideAppTheme"/>
+        <activity android:name=".activity.ChannelActivity_" />
 
         <!-- 友盟统计 -->
         <meta-data android:value="577d1a3267e58e2f1c00503c" android:name="UMENG_APPKEY"></meta-data>

@@ -32,7 +32,7 @@ public class NewListJson extends JsonPacket {
     }
 
     public List<NewModle> readJsonNewModles(String res, String value) {
-        Logger.w(TAG,"readJsonNewModles");
+        Logger.w(TAG,"readJsonNewModles = "+res);
         newModles = new ArrayList<NewModle>();
         if (res == null || res.equals("")) {
             return null;

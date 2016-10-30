@@ -1,14 +1,17 @@
 package com.kuilei.zhuyi.utils;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import com.kuilei.zhuyi.fragment.FootBallFragment;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by lenovog on 2016/7/4.
@@ -22,7 +25,10 @@ public class OkHttpUtil {
 
     public OkHttpUtil(OkHttpClient okHttpClient) {
         if (okHttpClient == null) {
-            mOkHttpClient = new OkHttpClient();
+            mOkHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS)
+                    .build();
         }else {
             mOkHttpClient = okHttpClient;
         }
@@ -63,6 +69,7 @@ public class OkHttpUtil {
      * @throws IOException
      */
     private String _getAsString(String url) throws IOException {
+        Logger.w(FootBallFragment.class,"getAsString start");
         Response execute = _getAsyn(url);
         String str = new String(execute.body().bytes(),"UTF-8");
         return str;
@@ -87,20 +94,19 @@ public class OkHttpUtil {
     private void deliveryResult(final ResultCallback callback, final Request request) {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void onFailure(Call call, IOException e) {
                 sendFailedCallback(request, e, callback);
             }
 
             @Override
-            public void onResponse(Response response) throws IOException {
+            public void onResponse(Call call, Response response) throws IOException {
                 try {
                     final String str = request.body().toString();
-                        sendSuccessResultCallback(str, callback);
+                    sendSuccessResultCallback(str, callback);
                 }catch (Exception e) {
                     e.printStackTrace();
                     sendFailedCallback(response.request(), e, callback);
                 }
-
             }
         });
     }
@@ -140,6 +146,8 @@ public class OkHttpUtil {
     public static InputStream getAsInputStream(String url) throws IOException {
         return getInstance()._getAsInputStream(url);
     }
+
+
 
 //    public static String getByHttpClient(Context context, String strUrl) throws Exception {
 //        String str1 = new String();

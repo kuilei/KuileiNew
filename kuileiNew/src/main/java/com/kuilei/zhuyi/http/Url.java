@@ -12,4 +12,16 @@ public class Url {
     public static final String TopId = "T1348647909107";
     //新闻详情
     public static final String NewDetail = host + "nc/article/";
+
+    // 足球
+    public static final String CommonUrl = host + "nc/article/list/";
+    public static final String FootId = "T1399700447917";
+    // 娱乐
+    public static final String YuLeId = "T1348648517839";
+    // 体育
+    public static final String TiYuId = "T1348649079062";
+    // 财经
+    public static final String CaiJingId = "T1348648756099";
+    // 科技
+    public static final String KeJiId = "T1348649580692";
 }

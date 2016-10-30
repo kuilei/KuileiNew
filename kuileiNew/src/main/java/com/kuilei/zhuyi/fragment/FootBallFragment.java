@@ -1,17 +1,12 @@
 package com.kuilei.zhuyi.fragment;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.os.Handler;
+import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.kuilei.zhuyi.R;
-import com.kuilei.zhuyi.activity.BaseActivity;
-import com.kuilei.zhuyi.activity.DetailsActivity_;
-import com.kuilei.zhuyi.activity.ImageDetailActivity_;
 import com.kuilei.zhuyi.adapter.CardsAnimationAdapter;
 import com.kuilei.zhuyi.adapter.NewAdapter;
 import com.kuilei.zhuyi.bean.NewModle;
@@ -33,7 +28,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
@@ -42,36 +36,37 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by lenovog on 2016/6/29.
+ * Created by lenovog on 2016/10/29.
  */
 @EFragment(R.layout.activity_main)
-public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,BaseSliderView.OnSliderClickListener {
-    private final Class TAG = NewsFragment.class;
+public class FootBallFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseSliderView.OnSliderClickListener {
+    private final  Class TAG = FootBallFragment.class;
     protected SliderLayout mDemoSlider;
+
     @ViewById(R.id.swipe_container)
-    protected SwipeRefreshLayout swipeLayout;
+    protected SwipeRefreshLayout mSwipeLayout;
     @ViewById(R.id.listview)
     protected SwipeListView mListView;
     @ViewById(R.id.progressBar)
     protected ProgressBar mProgressBar;
-    protected HashMap<String, String> url_maps;
+
 
     protected HashMap<String, NewModle> newHashMap;
+    private int index = 0;
+    protected HashMap<String, String> url_maps;
 
     @Bean
     protected NewAdapter newAdapter;
     protected List<NewModle> listsModles;
-    private int index = 0;
     private boolean isRefresh = false;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @AfterInject
     protected void init() {
-
         listsModles = new ArrayList<NewModle>();
         url_maps = new HashMap<String, String>();
 
@@ -80,9 +75,9 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @AfterViews
     protected void initView() {
-        Logger.w(NewsFragment.class,"initView");
-        swipeLayout.setOnRefreshListener(this);
-        InitView.instance().initSwipeRefreshLayout(swipeLayout);
+        Logger.w(FootBallFragment.class,"initView");
+        mSwipeLayout.setOnRefreshListener(this);
+        InitView.instance().initSwipeRefreshLayout(mSwipeLayout);
         InitView.instance().initListView(mListView, getActivity());
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_item, null);
         mDemoSlider = (SliderLayout) headView.findViewById(R.id.slider);
@@ -91,54 +86,60 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         AnimationAdapter animationAdapter = new CardsAnimationAdapter(newAdapter);
         animationAdapter.setAbsListView(mListView);
         mListView.setAdapter(animationAdapter);
-        loadData(getNewUrl(index + ""));
-
+        loadData(getCommonUrl(index + "",Url.FootId));
+//        loadData(getNewUrl(index + ""));
         mListView.setOnBottomListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 currentPagte++;
                 index = index + 20;
-                loadData(getNewUrl(index + ""));
+                loadData(getCommonUrl(index + "",Url.FootId));
+//                loadData(getNewUrl(index + ""));
             }
         });
     }
 
-    private void loadData(String url) {
+
+    protected void loadData(String url) {
+        Logger.w(TAG,"loadData");
         if (getMyActivity().hasNetWork()) {
             loadNewList(url);
-          //  getMyActivity().showShortToast("show information");
+            //  getMyActivity().showShortToast("show information");
         } else {
             mListView.onBottomComplete();
             mProgressBar.setVisibility(View.GONE);
             getMyActivity().showShortToast(getString(R.string.not_network));
-       //     String result = getMyActivity().getCacheStr("NewsFragment" + currentPagte);
-        //    if (!StringUtils.isEmpty(result)) {
-        //        getResult(result);
-        //    }
+            //     String result = getMyActivity().getCacheStr("NewsFragment" + currentPagte);
+            //    if (!StringUtils.isEmpty(result)) {
+            //        getResult(result);
+            //    }
         }
     }
 
-
-
     @Background
     void loadNewList(String url) {
+        Logger.w(TAG,"loadNewList");
         String result;
         try {
+            Logger.w(TAG,"LoadNewList url = " + url);
             result = OkHttpUtil.getAsString(url);
+            Logger.w(TAG,"LoadNewList result = " + result);
             if (!StringUtils.isEmpty(result)) {
-                getResult(result);
+             //   getResult(result);
             } else {
-                swipeLayout.setRefreshing(false);
+                mSwipeLayout.setRefreshing(false);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
     @UiThread
     public void getResult(String result) {
+        Logger.w(TAG,"getResult = " + result);
         //设置缓存
-        getMyActivity().setCacheStr("NewsFragment" + currentPagte, result);
+        getMyActivity().setCacheStr("FootBallFragment" + currentPagte, result);
         if (isRefresh)
         {
             isRefresh = false;
@@ -146,18 +147,19 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             listsModles.clear();
         }
         mProgressBar.setVisibility(View.GONE);
-        swipeLayout.setRefreshing(false);
+        mSwipeLayout.setRefreshing(false);
         //解析数据
-        List<NewModle> list = NewListJson.instance(getActivity()).readJsonNewModles(result, Url.TopId);
+        List<NewModle> list = NewListJson.instance(getActivity()).readJsonNewModles(result, Url.FootId);
         if (index == 0 && list.size() >= 4) {
             initSliderLayout(list);
-           // getMyActivity().showShortToast("initSliderLayout");
+            // getMyActivity().showShortToast("initSliderLayout");
         } else {
             newAdapter.appendList(list);
         }
         listsModles.addAll(list);
         mListView.onBottomComplete();
     }
+
 
     private void initSliderLayout(List<NewModle> newModles) {
 
@@ -205,45 +207,11 @@ public class NewsFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        Logger.w(TAG,"onRefresh");
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    currentPagte = 1;
-                    isRefresh = true;
-                    url_maps.clear();
-                    mDemoSlider.removeAllSliders();
-                    loadData(getNewUrl("0"));
 
-                }
-            },2000);
     }
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-        Logger.w(TAG, "getUrl="+slider.getUrl());
-            NewModle newModle = newHashMap.get(slider.getUrl());
-            enterDetailActivity(newModle);
-    }
 
-    @ItemClick(R.id.listview)
-    protected void onItemClick(int position) {
-        NewModle newModle = listsModles.get(position - 1);
-        enterDetailActivity(newModle);
-    }
-
-    private void enterDetailActivity(NewModle newModle) {
-        Logger.w(TAG,"enterDetailActivity");
-        Logger.w(TAG,"getImagesModle="+newModle.getImagesModle());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("newModle",newModle);
-        Class<?> class1 = null;
-        if (newModle.getImagesModle() != null /*&& newModle.getImagesModle().getImgList().size() > 1*/) {
-            class1 = ImageDetailActivity_.class;
-        } else {
-             class1 = DetailsActivity_.class;
-        }
-
-        ((BaseActivity)getActivity()).openActivity(class1, bundle, 0);
     }
 }

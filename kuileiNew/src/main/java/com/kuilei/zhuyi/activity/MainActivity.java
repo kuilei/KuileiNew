@@ -11,9 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.kuilei.zhuyi.App;
 import com.kuilei.zhuyi.R;
 import com.kuilei.zhuyi.adapter.NewsFragmentPagerAdapter;
 import com.kuilei.zhuyi.bean.ChannelItem;
+import com.kuilei.zhuyi.bean.ChannelManage;
 import com.kuilei.zhuyi.fragment.NewsFragment_;
 import com.kuilei.zhuyi.initview.SlidingMenuView;
 import com.kuilei.zhuyi.utils.BaseTools;
@@ -25,9 +27,11 @@ import com.kuilei.zhuyi.webget.slidingMenu.SlidingMenu;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @EActivity(R.layout.main)
@@ -70,7 +74,7 @@ public class MainActivity extends BaseActivity {
     /**
      * head 头部 的右侧菜单 按钮
      */
-    //   (R.id.top_more)
+    @ViewById(R.id.top_more)
     protected ImageView top_more;
     /**
      * 用户选择的新闻分类列表
@@ -128,8 +132,13 @@ public class MainActivity extends BaseActivity {
 
     private void initColumnData() {
         Logger.w(TAG,"initColumnData");
-        //   userChannelLists = ((ArrayList<ChannelItem>) ChannelManage.getManage(App.getApp.getSQLHelper()).getUserChannel());
-        userChannelLists = initTestData();
+        try {
+            userChannelLists = ((ArrayList<ChannelItem>) ChannelManage.getManage(App.getApp().getSQLHelper()).getUserChannel());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+     //   userChannelLists = initTestData();
         initTabColumn();
         initFragment();
 
@@ -156,6 +165,11 @@ public class MainActivity extends BaseActivity {
     }
 
      private Fragment initFragment(String channelName) {
+      //   if (channelName.equals("head title")) {
+      //       return new NewsFragment_();
+     //    } else if (channelName.equals("football")) {
+//             return new EntertainFragment_();
+     //    }
          return new NewsFragment_();
      }
 
@@ -182,6 +196,15 @@ public class MainActivity extends BaseActivity {
             columnTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    for (int i = 0; i < mRadioGroup_content.getChildCount(); i++) {
+                        View localView = mRadioGroup_content.getChildAt(i);
+                        if (localView != v)
+                            localView.setSelected(false);
+                        else {
+                            localView.setSelected(true);
+                            mViewPager.setCurrentItem(i);
+                        }
+                    }
 
                 }
             });
@@ -191,10 +214,27 @@ public class MainActivity extends BaseActivity {
 
     private void initViewPager() {
         Logger.w(TAG,"initViewPager");
+
         mAdapetr = new NewsFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(mAdapetr);
         mViewPager.addOnPageChangeListener(pageListener);
+    }
+
+    @Click(R.id.button_more_columns)
+    protected void onMoreColumns(View view) {
+        Logger.w(TAG,"onMoreColumns");
+        openActivityForResult(ChannelActivity_.class, CHANNELREQUEST);
+    }
+
+    @Click(R.id.top_head)
+    protected void onMenu(View view) {
+        if (side_drawer.isMenuShowing()) {
+            side_drawer.showContent();
+        }else {
+            side_drawer.showMenu();
+        }
+
     }
 
     public ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {
@@ -205,7 +245,32 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public void onPageSelected(int position) {
-
+            mViewPager.setCurrentItem(position);
+            selectTab(position);
+        }
+        /**
+         * 选择的Column里面的Tab
+         */
+        private void selectTab(int tab_position) {
+            columnSelectIndex = tab_position;
+            for (int i = 0; i < mRadioGroup_content.getChildCount(); i++) {
+                View checkView = mRadioGroup_content.getChildAt(tab_position);
+                int k = checkView.getMeasuredWidth();
+                int l = checkView.getLeft();
+                int i2 = l + k / 2 - mScreenWidth / 2;
+                mColumnHorizontalScrollView.smoothScrollTo(i2, 0);
+            }
+// 判断是否选中
+            for (int j = 0; j < mRadioGroup_content.getChildCount(); j++) {
+                View checkView = mRadioGroup_content.getChildAt(j);
+                boolean ischeck;
+                if (j == tab_position) {
+                    ischeck = true;
+                }else {
+                    ischeck = false;
+                }
+                checkView.setSelected(ischeck);
+            }
         }
 
         @Override

@@ -26,6 +26,11 @@ public class BaseFragment extends Fragment {
         return urlString;
     }
 
+    public String getCommonUrl(String index, String itemId) {
+        String urlString = Url.CommonUrl + itemId + "/" + index + Url.endUrl;
+        return urlString;
+    }
+
 
     public boolean isNullString(String imgUrl) {
 

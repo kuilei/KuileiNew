@@ -17,7 +17,7 @@ public class NewModle extends BaseModle {
      */
     private String title;
     /**
-     * С����
+     *
      */
     private String digest;
     /**

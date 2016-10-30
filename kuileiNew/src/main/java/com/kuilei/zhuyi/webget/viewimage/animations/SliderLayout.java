@@ -14,6 +14,7 @@ import android.view.animation.Interpolator;
 import android.widget.RelativeLayout;
 
 import com.kuilei.zhuyi.R;
+import com.kuilei.zhuyi.utils.Logger;
 import com.kuilei.zhuyi.webget.viewimage.indicators.PagerIndicator;
 import com.kuilei.zhuyi.webget.viewimage.slidertypes.BaseSliderView;
 import com.kuilei.zhuyi.webget.viewimage.transformers.AccordionTransformer;
@@ -117,6 +118,9 @@ public class SliderLayout extends RelativeLayout {
      */
     private BaseAnimationInterface mCustomAnimation;
 
+
+    private View view;
+
     /**
      * shape, rect or oval.
      */
@@ -132,7 +136,7 @@ public class SliderLayout extends RelativeLayout {
     public SliderLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
-        LayoutInflater.from(context).inflate(R.layout.slider_layout, this, true);
+        view = LayoutInflater.from(context).inflate(R.layout.slider_layout, this, true);
 
         final TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs,
                 R.styleable.SliderLayout,
@@ -183,6 +187,7 @@ public class SliderLayout extends RelativeLayout {
         if (mIndicator != null) {
             mIndicator.destroySelf();
         }
+        Logger.w(SliderLayout.class,"mIndicator = "+indicator + " mIndicatorVisibility = " + mIndicatorVisibility);
         mIndicator = indicator;
         mIndicator.setIndicatorVisibility(mIndicatorVisibility);
         mIndicator.setViewPager(mViewPager);
@@ -527,8 +532,11 @@ public class SliderLayout extends RelativeLayout {
     }
 
     public void setPresetIndicator(PresetIndicators presetIndicator) {
-        PagerIndicator pagerIndicator = (PagerIndicator) findViewById(presetIndicator
-                .getResourceId());
+        Logger.w(SliderLayout.class,"getresouce = " + presetIndicator
+                .getResourceId() + "  presetIndicator = " + presetIndicator);
+
+        PagerIndicator pagerIndicator = (PagerIndicator) view.findViewById(PresetIndicators.Right_Bottom.id);
+//                presetIndicator.getResourceId());
         setCustomIndicator(pagerIndicator);
     }
 
