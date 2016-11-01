@@ -97,6 +97,22 @@ public class DragAdapter extends BaseAdapter {
         return channelList;
     }
 
+
+    /** 拖动变更频道排序 */
+    public void exchange(int dragPostion, int dropPostion) {
+        holdPosition = dropPostion;
+        ChannelItem dragItem = (ChannelItem) getItem(dragPostion);
+        if (dragPostion < dropPostion) {
+            channelList.add(dropPostion + 1, dragItem);
+            channelList.remove(dragPostion);
+        } else {
+            channelList.add(dropPostion, dragItem);
+            channelList.remove(dragPostion + 1);
+        }
+        isChanged = true;
+        isListChanged = true;
+        notifyDataSetChanged();
+    }
     /** 设置删除的position */
     public void setRemove(int position) {
         remove_position = position;

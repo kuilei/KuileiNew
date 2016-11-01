@@ -111,7 +111,7 @@ public class ChannelActivity extends BaseActivity implements AdapterView.OnItemC
                                     otherGridView.getChildAt(otherGridView.getLastVisiblePosition()).getLocationInWindow(endLocation);
                                     moveAnim(moveImageView, startLocation, endLocation,channelItem, userGridView);
                                     userAdapter.setRemove(position);
-//                                    ChannelManage.getManage(App.getApp().getSQLHelper()).updateChannel(channelItem,"0");
+                                    ChannelManage.getManage(App.getApp().getSQLHelper()).updateChannel(channelItem,"0");
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -139,7 +139,7 @@ public class ChannelActivity extends BaseActivity implements AdapterView.OnItemC
                                     userGridView.getChildAt(userGridView.getLastVisiblePosition()).getLocationInWindow(endLocation);
                                     moveAnim(moveImageView, startLocation, endLocation,channelItem, otherGridView);
                                     otherAdapter.setRemove(position);
-//                                    ChannelManage.getManage(App.getApp().getSQLHelper()).updateChannel(channelItem,"0");
+                                    ChannelManage.getManage(App.getApp().getSQLHelper()).updateChannel(channelItem,"1");
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

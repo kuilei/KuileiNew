@@ -1,17 +1,26 @@
 package com.kuilei.zhuyi.webget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Vibrator;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.kuilei.zhuyi.R;
 import com.kuilei.zhuyi.adapter.DragAdapter;
 import com.kuilei.zhuyi.utils.DataTools;
+import com.kuilei.zhuyi.utils.Logger;
 
 /**
  * Created by lenovog on 2016/10/30.
@@ -64,7 +73,8 @@ public class DragGrid extends GridView {
     /** */
     private int holdPosition;
     /** 拖动的时候放大的倍数 */
-    private final double dragScale = 1.2D;
+   // private final double dragScale = 1.2D;
+    private final double dragScale = 1.0;
     /** 震动器 */
     private Vibrator mVibrator;
     /** 每个ITEM之间的水平间距 */
@@ -75,15 +85,17 @@ public class DragGrid extends GridView {
     private String LastAnimationID;
 
     public DragGrid(Context context) {
-        super(context);
+        this(context,null);
+
     }
 
     public DragGrid(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs,0);
     }
 
     public DragGrid(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context);
     }
     public void init(Context context) {
         mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
@@ -117,11 +129,97 @@ public class DragGrid extends GridView {
         setOnItemLongClickListener(new OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                int x = (int) ev.getX();
+                int y = (int) ev.getY();
+                startPosition = position;
+                dragPosition = position;
+                if (startPosition <= 1) {
+                    return false;
+                }
+                ViewGroup dragViewGroup = (ViewGroup) getChildAt(dragPosition - getFirstVisiblePosition());
+                TextView dragTextView = (TextView) dragViewGroup.findViewById(R.id.text_item);
+                dragTextView.setSelected(true);
+                dragTextView.setEnabled(false);
+                itemHeight = dragViewGroup.getHeight();
+                itemWidth = dragViewGroup.getWidth();
+                itemTotalCount = DragGrid.this.getCount();
+                int row = itemTotalCount / nColumns;
+                Remainder = (itemTotalCount % nColumns);
+                if (Remainder != 0) {
+                    nRows = row + 1;
+                } else {
+                    nRows = row;
+                }
+
+                if (dragPosition != AdapterView.INVALID_POSITION) {
+                    win_view_x = windowX - dragViewGroup.getLeft();
+                    win_view_y = windowY - dragViewGroup.getTop();
+                    Logger.w(DragGrid.class, " dragViewGroup.getLeft() = "+dragViewGroup.getLeft() + " dragViewGroup.getTop() =" + dragViewGroup.getTop());
+                    dragOffsetX = (int) (ev.getRawX() - x);// 手指在屏幕的上X位置-手指在控件中的位置就是距离最左边的距离
+                    dragOffsetY = (int) (ev.getRawY() - y);// 手指在屏幕的上y位置-手指在控件中的位置就是距离最上边的距离
+                    dragItemView = dragViewGroup;
+                   // dragViewGroup.destroyDrawingCache();
+                    dragViewGroup.setDrawingCacheEnabled(true);
+                    Bitmap dragBitmap = Bitmap.createBitmap(dragViewGroup.getDrawingCache());
+                    dragViewGroup.setDrawingCacheEnabled(false);
+                    mVibrator.vibrate(50);// 设置震动时间
+                    startDrag(dragBitmap,(int)ev.getRawX(), (int)ev.getRawY());
+                    hideDropItem();
+                    dragViewGroup.setVisibility(View.INVISIBLE);
+                    isMoving = false;
+                    requestDisallowInterceptTouchEvent(true);
+                    return true;
+                }
                 return false;
             }
         });
     }
 
+
+    /** 获取移动动画 */
+    public Animation getMoveAnimation(float toXValue, float toYValue) {
+        TranslateAnimation mTranslateAnimation = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0.0F,
+                Animation.RELATIVE_TO_SELF, toXValue,
+                Animation.RELATIVE_TO_SELF, 0.0F,
+                Animation.RELATIVE_TO_SELF, toYValue);// 当前位置移动到指定位置
+        mTranslateAnimation.setFillAfter(true);// 设置一个动画效果执行完毕后，View对象保留在终止的位置。
+        mTranslateAnimation.setDuration(300L);
+        return mTranslateAnimation;
+    }
+    public void startDrag(Bitmap dragBitmap, int x, int y) {
+        stopDrag();
+
+        windowParams = new WindowManager.LayoutParams();
+        windowParams.gravity = Gravity.TOP | Gravity.LEFT;
+
+        windowParams.x = x - win_view_x;
+        windowParams.y = y - win_view_y;
+        Logger.w(DragGrid.class,"windowParams.x = " + windowParams.x + " windowParams.y = " + windowParams.y
+                    +  " win_view_x = "+ win_view_x + " win_view_y =" + win_view_y
+                    + " dragBitmap.getWidth() = " + dragBitmap.getWidth() + " dragBitmap.getHeight() = " + dragBitmap.getHeight());
+
+        windowParams.width = (int) (dragScale * dragBitmap.getWidth());
+        windowParams.height = (int) (dragScale * dragBitmap.getHeight());
+        Logger.w(DragGrid.class, " windowParams.width = "+ windowParams.width + " windowParams.height =" + windowParams.height);
+        this.windowParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+  //      this.windowParams.flags = PixelFormat.TRANSLUCENT;
+        this.windowParams.windowAnimations = 0;
+        ImageView iv = new ImageView(getContext());
+        iv.setImageBitmap(dragBitmap);
+        windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager.addView(iv,windowParams);
+        dragImageView = iv;
+    }
+
+
+    /** 隐藏 放下 的ITEM */
+    private void hideDropItem() {
+        ((DragAdapter) getAdapter()).setShowDropItem(false);
+    }
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         boolean bool = true;
@@ -137,6 +235,14 @@ public class DragGrid extends GridView {
                     windowY = (int) ev.getY();
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    Logger.w(DragGrid.class,"x = " + x + " y = " + y + " rawx = " + ev.getRawX() + " rawy = " + ev.getRawY());
+                    onDrag(x, y, (int)ev.getRawX(), (int)ev.getRawY());
+                    if (!isMoving) {
+                        OnMove(x, y);
+                    }
+                    if (pointToPosition(x, y) != AdapterView.INVALID_POSITION) {
+                        break;
+                    }
                     break;
                 case MotionEvent.ACTION_UP:
                     stopDrag();
@@ -158,6 +264,19 @@ public class DragGrid extends GridView {
             dragImageView = null;
         }
     }
+    /** 在拖动的情况 */
+    private void onDrag(int x, int y, int rawx, int rawy) {
+        if (dragImageView != null) {
+            windowParams.alpha = 0.6f;
+            // windowParams.x = x - win_view_x + viewX;
+            // windowParams.y = y + win_view_y + viewY;
+            // windowParams.x = rawx - itemWidth / 2;
+            // windowParams.y = rawy - itemHeight / 2;
+            windowParams.x = rawx - win_view_x;
+            windowParams.y = rawy - win_view_y;
+            windowManager.updateViewLayout(dragImageView, windowParams);
+        }
+    }
 
     /** 在松手下放的情况 */
     private void onDrop(int x, int y) {
@@ -165,7 +284,118 @@ public class DragGrid extends GridView {
         int tempPostion = pointToPosition(x, y);
         dropPosition = tempPostion;
         DragAdapter mDragAdapter = (DragAdapter) getAdapter();
+        // 显示刚拖动的ITEM
         mDragAdapter.setShowDropItem(true);
         mDragAdapter.notifyDataSetChanged();
     }
+
+    /** 移动的时候触发 */
+    public void OnMove(int x, int y) {
+        int dPosition = pointToPosition(x, y);
+
+        if (dPosition > 1) {
+            if (((dPosition == -1) || (dPosition == dragPosition))) {
+                return;
+            }
+
+            dropPosition = dPosition;
+            if (dragPosition != startPosition) {
+                dragPosition = startPosition;
+            }
+            int movecount;
+            // 拖动的=开始拖的，并且 拖动的 不等于放下的
+            if ((dragPosition == startPosition) || (dragPosition != dropPosition)) {
+                // 移需要移动的动ITEM数量
+                movecount = dropPosition - dragPosition;
+            } else {
+                // 移需要移动的动ITEM数量为0
+                movecount = 0;
+            }
+            if (movecount == 0) {
+                return;
+            }
+
+            int movecount_abs = Math.abs(movecount);
+
+            if (dPosition != dragPosition) {
+                ViewGroup dragGroup = (ViewGroup) getChildAt(dragPosition);
+                dragGroup.setVisibility(View.INVISIBLE);
+
+                float to_x = 1;
+                float to_y;
+
+                float x_vlaue = ((float) mHorizontalSpacing / (float)itemWidth) + 1.0f;
+
+                float y_vlaue = ((float) mVerticalSpacing / (float) itemHeight) +1.0f;
+
+                Log.d("x_vlaue", "x_vlaue = " + x_vlaue);
+
+                for (int i = 0; i < movecount_abs; i++) {
+                    to_x = x_vlaue;
+                    to_y = y_vlaue;
+                    // 像左
+                    if (movecount > 0) {
+                        // 判断是不是同一行的
+                        holdPosition = dragPosition + i + 1;
+                        if (dragPosition / nColumns == holdPosition / nColumns) {
+                            to_x = -x_vlaue;
+                            to_y = 0;
+                        } else if (holdPosition % 4 == 0) {
+                            to_x = 3 * x_vlaue;
+                            to_y = -y_vlaue;
+                        } else {
+                            to_x = -x_vlaue;
+                            to_y = 0;
+                        }
+                    } else {
+                        // 向右,下移到上，右移到左
+                        holdPosition = dragPosition - i - 1;
+                        if (dragPosition / nColumns == holdPosition / nColumns) {
+                            to_x = x_vlaue;
+                            to_y = 0;
+                        } else if ((holdPosition + 1) % 4 == 0) {
+                            to_x = -3 * x_vlaue;
+                            to_y = y_vlaue;
+                        } else {
+                            to_x = x_vlaue;
+                            to_y = 0;
+                        }
+                    }
+                    ViewGroup moveViewGroup = (ViewGroup) getChildAt(holdPosition);
+                    Animation moveAnimation = getMoveAnimation(to_x, to_y);
+                    moveViewGroup.startAnimation(moveAnimation);
+                    // 如果是最后一个移动的，那么设置他的最后个动画ID为LastAnimationID
+                    if (holdPosition == dropPosition) {
+                        LastAnimationID = moveAnimation.toString();
+                    }
+                    moveAnimation.setAnimationListener(new Animation.AnimationListener() {
+
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            isMoving = true;
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            // 如果为最后个动画结束，那执行下面的方法
+                            if (animation.toString().equalsIgnoreCase(LastAnimationID)) {
+                                DragAdapter mDragAdapter = (DragAdapter) getAdapter();
+                                mDragAdapter.exchange(startPosition, dropPosition);
+                                startPosition = dropPosition;
+                                dragPosition = dropPosition;
+                                isMoving = false;
+                            }
+                        }
+                    });
+
+                }
+            }
+        }
+    }
+
 }

@@ -95,9 +95,9 @@ public class ChannelManage {
      */
     private void initDefaultChannel() {
         Logger.w(ChannelManage.class,"deleteAll Channel");
-//        deleteAllChannel();
-//        saveUserChannel(defaultUserChannels);
-//        saveOtherChannel(defaultOtherChannels);
+        deleteAllChannel();
+        saveUserChannel(defaultUserChannels);
+        saveOtherChannel(defaultOtherChannels);
 
     }
     /**
@@ -160,6 +160,13 @@ public class ChannelManage {
 
     public void updateChannel(ChannelItem channelItem, String selected) {
         ContentValues values = new ContentValues();
+        values.put("selected",selected);
+        values.put("id",channelItem.getId());
+        values.put("name", channelItem.getName());;
+        values.put("orderId", channelItem.getOrderId());
+        channelDao.updateCache(values, " name = ?",new String[]{
+                channelItem.getName()
+        });
 
     }
 
@@ -184,6 +191,6 @@ public class ChannelManage {
     }
 
     private void deleteAllChannel() {
-
+            channelDao.clearFeedTable();
     }
 }
