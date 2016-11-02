@@ -34,6 +34,8 @@
         <activity android:name=".activity.DetailsActivity_"
                  android:theme="@style/SlideAppTheme"/>
         <activity android:name=".activity.ChannelActivity_" />
+        <activity android:name=".activity.MoreActivity_" />
+        <activity android:name=".activity.WeatherActivity_" />
 
         <!-- 友盟统计 -->
         <meta-data android:value="577d1a3267e58e2f1c00503c" android:name="UMENG_APPKEY"></meta-data>

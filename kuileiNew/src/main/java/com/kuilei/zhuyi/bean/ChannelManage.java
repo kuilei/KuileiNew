@@ -15,7 +15,7 @@ import java.util.Map;
  * Created by lenovog on 2016/6/29.
  */
 public class ChannelManage {
-    private final String TAG="ChannelManage";
+    private final Class TAG= ChannelManage.class;
     public static ChannelManage channelManage;
 
 
@@ -108,11 +108,13 @@ public class ChannelManage {
     public List<ChannelItem> getUserChannel() {
         Logger.w(ChannelManage.class,"getUserChannel");
        Object cacheList = channelDao.listCache(SQLHelper.SELECTED + "= ?",new String[]{"1"});
+        Logger.w(ChannelManage.class," getUserChannel cacheList = " + cacheList);
         if (cacheList != null && !((List<?>) cacheList).isEmpty())
         {
             userExist = true;
             List<Map<String,String>> maplist = (List) cacheList;
             int count = maplist.size();
+            Logger.w(TAG," getUserChannel count= " + count);
             List<ChannelItem> list = new ArrayList<ChannelItem>();
             for (int i = 0; i < count; i++) {
                 ChannelItem navigate = new ChannelItem();
@@ -135,12 +137,14 @@ public class ChannelManage {
      * @return 数据库存在用户配置 ? 数据库内的其它频道 : 默认其它频道 ;
      */
     public List<ChannelItem> getOtherChannel() {
-        Logger.w(ChannelManage.class,"getUserChannel");
+        Logger.w(ChannelManage.class,"getOtherChannel");
         Object cacheList = channelDao.listCache(SQLHelper.SELECTED + "= ?",new String[]{"0"});
+        Logger.w(ChannelManage.class," getOtherChannel cacheList = " + cacheList);
         List<ChannelItem> list = new ArrayList<ChannelItem>();
         if (cacheList != null && !((List)cacheList).isEmpty()) {
             List<Map<String, String>> maplist = (List) cacheList;
             int count = maplist.size();
+            Logger.w(ChannelManage.class,"getOtherChannel count = " + count);
             for (int i = 0; i < count; i++) {
                 ChannelItem navigate = new ChannelItem();
                 navigate.setId(Integer.valueOf(maplist.get(i).get(SQLHelper.ID)));

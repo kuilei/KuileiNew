@@ -16,6 +16,15 @@
     <string name="more">更多</string>
 
 
+    <!-- 左侧菜单页 -->
+    <string name="left_search">数据查询</string>
+    <string name="left_setting">系统设置</string>
+    <string name="left_check_update">检查更新</string>
+    <string name="left_feedback">用户反馈</string>
+    <string name="left_restart">重复播放</string>
+    <string name="isnewest">(当前为最新版本)</string>
+
+
 
     <!-- 下拉刷新  end -->
     <string name="drop_down_list_header_default_text">Click to refresh&#8230;</string>

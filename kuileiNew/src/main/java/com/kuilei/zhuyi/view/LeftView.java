@@ -6,6 +6,8 @@ import android.widget.LinearLayout;
 
 import com.kuilei.zhuyi.R;
 import com.kuilei.zhuyi.activity.BaseActivity;
+import com.kuilei.zhuyi.activity.MoreActivity_;
+import com.kuilei.zhuyi.activity.WeatherActivity_;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
@@ -43,13 +45,13 @@ public class LeftView extends LinearLayout {
 
     @Click(R.id.tianqi)
     public void enterTianQi(View view) {
-       // context.openActivity(WeatherActivity_.class);
+        context.openActivity(WeatherActivity_.class);
         isShow();
     }
 
     @Click(R.id.more)
     public void enterMore(View view) {
-       // context.openActivity(MoreActivity_.class);
+        context.openActivity(MoreActivity_.class);
         isShow();
     }
 

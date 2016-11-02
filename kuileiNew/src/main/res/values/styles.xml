@@ -195,4 +195,25 @@
         <!-- API 14 theme customizations can go here. -->
         <item name="android:windowBackground">@android:color/black</item>
     </style>
+
+
+    <style name="weacher_title">
+        <item name="android:textSize">21.0sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="weacher_temp">
+        <item name="android:textSize">18.0sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!-- TAB 我的页面 -->
+    <style name="my_itme">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:drawableRight">@mipmap/to</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_color_selector</item>
+    </style>
 </resources>

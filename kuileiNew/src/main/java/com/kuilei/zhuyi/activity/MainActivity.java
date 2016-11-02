@@ -1,5 +1,6 @@
 package com.kuilei.zhuyi.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -235,6 +236,19 @@ public class MainActivity extends BaseActivity {
             side_drawer.showMenu();
         }
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            if (isChange) {
+                setChangeView();
+                isChange = true;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public ViewPager.OnPageChangeListener pageListener = new ViewPager.OnPageChangeListener() {

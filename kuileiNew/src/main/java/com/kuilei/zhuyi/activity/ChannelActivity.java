@@ -252,4 +252,13 @@ public class ChannelActivity extends BaseActivity implements AdapterView.OnItemC
         iv.setImageBitmap(cache);
         return iv;
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        if (userAdapter.isListChanged()) {
+            MainActivity_.isChange = true;
+            Logger.w(TAG,"channelActivity finish data change.");
+        }
+    }
 }
