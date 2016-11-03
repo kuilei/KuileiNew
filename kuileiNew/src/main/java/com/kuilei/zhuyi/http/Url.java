@@ -24,4 +24,9 @@ public class Url {
     public static final String CaiJingId = "T1348648756099";
     // 科技
     public static final String KeJiId = "T1348649580692";
+
+
+
+    // 天气预报url
+    public static final String WeatherHost = "http://wthrcdn.etouch.cn/weather_mini?city=";
 }

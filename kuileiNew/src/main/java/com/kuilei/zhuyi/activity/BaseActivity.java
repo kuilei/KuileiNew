@@ -16,6 +16,9 @@ import com.kuilei.zhuyi.utils.StringUtils;
 import com.kuilei.zhuyi.webget.slideingactivity.IntentUtils;
 import com.kuilei.zhuyi.webget.slideingactivity.SlidingActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * Created by lenovog on 2016/6/28.
  */
@@ -98,6 +101,11 @@ public class BaseActivity extends SlidingActivity {
         }
     }
 
+    public String getWeatherUrl(String cityName) throws UnsupportedEncodingException {
+        // + Url.WeatherKey
+        String urlString = Url.WeatherHost + URLEncoder.encode(cityName, "utf-8");
+        return urlString;
+    }
 
     public String getUrl(String newId) {
         return Url.NewDetail + newId + Url.endDetailUrl;

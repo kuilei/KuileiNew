@@ -1,5 +1,8 @@
 package com.kuilei.zhuyi.utils;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.kuilei.zhuyi.fragment.FootBallFragment;
 
 import java.io.IOException;
@@ -21,6 +24,8 @@ public class OkHttpUtil {
 
     private static OkHttpClient mOkHttpClient;
 
+    private Handler mDelivery;
+
     private static OkHttpUtil mInstance;
 
     public OkHttpUtil(OkHttpClient okHttpClient) {
@@ -29,6 +34,7 @@ public class OkHttpUtil {
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(20, TimeUnit.SECONDS)
                     .build();
+            mDelivery = new Handler(Looper.getMainLooper());
         }else {
             mOkHttpClient = okHttpClient;
         }
@@ -101,7 +107,8 @@ public class OkHttpUtil {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    final String str = request.body().toString();
+//                    final String str = response.body().toString();
+                    final String str = new String(response.body().bytes(),"UTF-8");
                     sendSuccessResultCallback(str, callback);
                 }catch (Exception e) {
                     e.printStackTrace();
@@ -111,8 +118,18 @@ public class OkHttpUtil {
         });
     }
 
-    private void sendSuccessResultCallback(String str, ResultCallback callback) {
-
+    private void sendSuccessResultCallback(final String str, final ResultCallback callback) {
+        mDelivery.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if (callback != null)
+                {
+                    callback.onResponse(str);
+                }
+            }
+        });
     }
 
     private void sendFailedCallback(Request request, Exception e, ResultCallback callback) {
