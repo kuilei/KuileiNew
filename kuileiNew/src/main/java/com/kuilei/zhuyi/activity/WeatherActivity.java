@@ -14,6 +14,7 @@ import com.kuilei.zhuyi.adapter.WeatherAdapter;
 import com.kuilei.zhuyi.bean.WeatherModle;
 import com.kuilei.zhuyi.http.json.WeatherHandle;
 import com.kuilei.zhuyi.http.json.WeatherListJson;
+import com.kuilei.zhuyi.initview.SlidingMenuView;
 import com.kuilei.zhuyi.utils.OkHttpUtil;
 import com.kuilei.zhuyi.utils.StringUtils;
 import com.kuilei.zhuyi.utils.TimeUtils;
@@ -22,6 +23,7 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -123,12 +125,17 @@ public class WeatherActivity extends BaseActivity implements WeatherHandle.onRes
         }
     }
 
+    @Click(R.id.local)
+    public void chooseCity(View view) {
+        ChooseActivity_.intent(this).startForResult(REQUEST_CODE);
+    }
+
     public void setWeather(WeatherModle weatherModle) {
         mWeather.setText(weatherModle.getWeather());
         mWind.setText(weatherModle.getWind());
         mWeatherTemp.setText(weatherModle.getTemperature());
         mWeek.setText(weatherModle.getDate());
-//        SlidingMenuView.instance().setWeatherImage(mWeatherImage, weatherModle.getWeather());
+        SlidingMenuView.instance().setWeatherImage(mWeatherImage, weatherModle.getWeather());
     }
 
 

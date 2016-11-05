@@ -3,6 +3,7 @@ package com.kuilei.zhuyi.http.json;
 import android.content.Context;
 
 import com.kuilei.zhuyi.bean.WeatherModle;
+import com.kuilei.zhuyi.utils.Logger;
 import com.kuilei.zhuyi.utils.TimeUtils;
 
 import org.json.JSONArray;
@@ -15,6 +16,7 @@ import java.util.List;
  * Created by lenovog on 2016/11/3.
  */
 public class WeatherListJson extends JsonPacket {
+    private final Class TAG = WeatherListJson.class;
     public List<WeatherModle> weatherListModles = new ArrayList<WeatherModle>();
 
     public static WeatherListJson weatherListJson;
@@ -32,6 +34,7 @@ public class WeatherListJson extends JsonPacket {
     }
 
     public List<WeatherModle> readJsonWeatherListModles(String res) {
+        Logger.w(TAG,"readJsonWeatherListModles");
         weatherListModles.clear();
         try {
             if (res == null || res.equals("")) {
@@ -42,28 +45,6 @@ public class WeatherListJson extends JsonPacket {
             JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("forecast");
             for (int i = 0; i < jsonArray.length(); i++) {
                 weatherModle = readJsonWeatherModles(jsonArray.getJSONObject(i));
-                weatherListModles.add(weatherModle);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.gc();
-        }
-        return weatherListModles;
-    }
-
-    public List<WeatherModle> readJsonweatherListModles(String res) {
-        weatherListModles.clear();
-        try {
-            if (res == null || res.equals("")) {
-                return null;
-            }
-            WeatherModle weatherModle = null;
-            JSONObject jsonObject = new JSONObject(res);
-            JSONObject jsonArray = jsonObject.getJSONObject("result").getJSONObject("future");
-            for (int i = 0; i < 7; i++) {
-                weatherModle = readJsonWeatherModles(jsonArray.getJSONObject("day_"
-                        + TimeUtils.dateToWeek(i)));
                 weatherListModles.add(weatherModle);
             }
         } catch (Exception e) {
@@ -98,30 +79,4 @@ public class WeatherListJson extends JsonPacket {
         return weatherModle;
     }
 
-    private WeatherModle readJsonWeatherModle(JSONObject jsonObject) throws Exception {
-
-        WeatherModle weatherModle = null;
-
-        String temperature = "";
-        String weather = "";
-        String wind = "";
-        String week = "";
-        String date = "";
-
-        temperature = getString("temperature", jsonObject);
-        weather = getString("weather", jsonObject);
-        wind = getString("wind", jsonObject);
-        week = getString("week", jsonObject);
-        date = getString("date", jsonObject);
-
-        weatherModle = new WeatherModle();
-
-        weatherModle.setDate(date);
-        weatherModle.setTemperature(temperature);
-        weatherModle.setWeather(weather);
-        weatherModle.setWeek(week);
-        weatherModle.setWind(wind);
-
-        return weatherModle;
-    }
 }

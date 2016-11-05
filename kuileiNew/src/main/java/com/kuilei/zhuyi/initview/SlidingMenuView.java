@@ -2,6 +2,7 @@ package com.kuilei.zhuyi.initview;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.kuilei.zhuyi.R;
 import com.kuilei.zhuyi.webget.slidingMenu.SlidingMenu;
@@ -35,5 +36,49 @@ public class SlidingMenuView {
         slidingMenu.attachToActivity(activity, SlidingMenu.SLIDING_WINDOW);// 使SlidingMenu附加在Activity右边
         slidingMenu.setMenu(view);// 设置menu的布局文件
         return slidingMenu;
+    }
+
+    public void setWeatherImage(ImageView mWeatherImage, String weather) {
+        if (weather.equals("多云") || weather.equals("多云转阴") || weather.equals("多云转晴")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_duoyun);
+        } else if (weather.equals("中雨") || weather.equals("中到大雨")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_zhongyu);
+        } else if (weather.equals("雷阵雨")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_leizhenyu);
+        } else if (weather.equals("阵雨") || weather.equals("阵雨转多云")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_zhenyu);
+        } else if (weather.equals("暴雪")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_baoxue);
+        } else if (weather.equals("暴雨")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_baoyu);
+        } else if (weather.equals("大暴雨")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_dabaoyu);
+        } else if (weather.equals("大雪")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_daxue);
+        } else if (weather.equals("大雨") || weather.equals("大雨转中雨")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_dayu);
+        } else if (weather.equals("雷阵雨冰雹")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_leizhenyubingbao);
+        } else if (weather.equals("晴")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_qing);
+        } else if (weather.equals("沙尘暴")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_shachenbao);
+        } else if (weather.equals("特大暴雨")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_tedabaoyu);
+        } else if (weather.equals("雾") || weather.equals("雾霾")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_wu);
+        } else if (weather.equals("小雪")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_xiaoxue);
+        } else if (weather.equals("小雨")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_xiaoyu);
+        } else if (weather.equals("阴")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_yin);
+        } else if (weather.equals("雨夹雪")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_yujiaxue);
+        } else if (weather.equals("阵雪")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_zhenxue);
+        } else if (weather.equals("中雪")) {
+            mWeatherImage.setImageResource(R.mipmap.biz_plugin_weather_zhongxue);
+        }
     }
 }

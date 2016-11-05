@@ -26,6 +26,8 @@ public class BaseActivity extends SlidingActivity {
 
     private Dialog progressDialog;
 
+    public static final int REQUEST_CODE = 1000;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
