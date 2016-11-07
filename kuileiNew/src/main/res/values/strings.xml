@@ -47,4 +47,19 @@
     <string name="content_desc_unpinned_downloaded">Temporarily downloaded</string>
     <string name="content_desc_unpinned_downloading">Temporarily downloading</string>
     <string name="content_desc_unpinned_not_downloaded">Not downloaded</string>
+
+
+
+    <!-- 图片栏 -->
+    <string name="redian">精选</string>
+    <string name="dujia">趣图</string>
+    <string name="mingxing">美图</string>
+    <string name="titan">故事</string>
+    <string name="meitu">美图</string>
+
+    <!-- 视频栏 -->
+    <string name="video_redian">热点</string>
+    <string name="video_yule">娱乐</string>
+    <string name="video_gaoxiao">搞笑</string>
+    <string name="video_jingpin">精品</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.kuilei.zhuyi.activity;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +26,11 @@ import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,6 +178,22 @@ public class WeatherActivity extends BaseActivity implements WeatherHandle.onRes
 
     }
 
+    @OnActivityResult(REQUEST_CODE)
+    void onResult(int resultCode, Intent data) {
+        if (data != null) {
+            String titleName = data.getStringExtra("cityname");
+            setCacheStr("titleName",titleName);
+            if (! "".equals(titleName)) {
+                mTitle.setText(titleName + "天气");
+                setBack(titleName);
+                try {
+                    loadData(getWeatherUrl(titleName));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     @Override
     public void onResponse(String str) {

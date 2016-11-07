@@ -1,6 +1,7 @@
 package com.kuilei.zhuyi.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -72,7 +74,7 @@ public class ChooseActivity extends BaseActivity {
     @AfterTextChange(R.id.input_search_query)
     public void afterTextChanged(Editable s) {
         searchString = searchBox.getText().toString().trim().toUpperCase();
-
+        Logger.w(TAG,"afterTextChanged =" + searchString);
         if (curSearchTask != null && curSearchTask.getStatus() != AsyncTask.Status.FINISHED) {
             try
             {
@@ -85,6 +87,17 @@ public class ChooseActivity extends BaseActivity {
         curSearchTask = new SearchListTask();
         curSearchTask.execute(searchString);
     }
+
+
+    @ItemClick(R.id.listview)
+    public void onItemClick(int position) {
+        List<ContactItemInterface> searchList = inSearchMode ? filterList : contactList;
+        Intent intent = new Intent();
+        intent.putExtra("cityname", searchList.get(position).getDisplayInfo());
+        this.setResult(1001,intent);
+        this.finish();
+    }
+
 
 
     private class SearchListTask extends AsyncTask<String,Void,String> {
@@ -100,8 +113,10 @@ public class ChooseActivity extends BaseActivity {
             if (inSearchMode) {
                 for (ContactItemInterface itemInterface: contactList) {
                     CityItem cityItem = (CityItem) itemInterface;
-                    boolean isPinyin = cityItem.getFullName().toUpperCase().indexOf(keyWord) > -1;
-                    boolean isChinese = cityItem.getNickName().indexOf(keyWord) > -1;
+//                    boolean isPinyin = cityItem.getFullName().toUpperCase().indexOf(keyWord) > -1;
+                    boolean isPinyin = cityItem.getFullName().toUpperCase().startsWith(keyWord);
+//                    boolean isChinese = cityItem.getNickName().indexOf(keyWord) > -1;
+                    boolean isChinese = cityItem.getNickName().startsWith(keyWord);
                     if (isChinese || isPinyin) {
                         filterList.add(cityItem);
                     }

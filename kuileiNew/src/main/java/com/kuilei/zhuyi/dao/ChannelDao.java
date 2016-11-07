@@ -90,7 +90,7 @@ public class ChannelDao implements ChannelDaoInface {
             e.printStackTrace();
         }finally {
             if (database != null) {
-//                database.endTransaction();
+                database.endTransaction();
                 database.close();
             }
         }

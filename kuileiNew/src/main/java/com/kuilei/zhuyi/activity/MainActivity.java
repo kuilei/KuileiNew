@@ -21,8 +21,8 @@ import com.kuilei.zhuyi.fragment.NewsFragment_;
 import com.kuilei.zhuyi.initview.SlidingMenuView;
 import com.kuilei.zhuyi.utils.BaseTools;
 import com.kuilei.zhuyi.utils.Logger;
-import com.kuilei.zhuyi.view.LeftView;
-import com.kuilei.zhuyi.view.LeftView_;
+import com.kuilei.zhuyi.view.SlideMenuLeftView;
+import com.kuilei.zhuyi.view.SlideMenuLeftView_;
 import com.kuilei.zhuyi.webget.ColumnHorizontalScrollView;
 import com.kuilei.zhuyi.webget.slidingMenu.SlidingMenu;
 
@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity {
     protected ImageView shade_left;
     @ViewById(R.id.shade_right)
     protected ImageView shade_right;
-    protected LeftView mLeftView;
+    protected SlideMenuLeftView mSlideMenuLeftView;
      protected SlidingMenu side_drawer;
     /**
      * 屏幕宽度
@@ -294,8 +294,8 @@ public class MainActivity extends BaseActivity {
     };
 
     private void initSlidingMenu() {
-        mLeftView = LeftView_.build(this);
-        side_drawer = SlidingMenuView.instance().initSlidingMenuView(this, mLeftView);
+        mSlideMenuLeftView = SlideMenuLeftView_.build(this);
+        side_drawer = SlidingMenuView.instance().initSlidingMenuView(this, mSlideMenuLeftView);
     }
 
 }

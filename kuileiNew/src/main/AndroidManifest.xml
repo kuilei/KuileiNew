@@ -37,6 +37,7 @@
         <activity android:name=".activity.MoreActivity_" />
         <activity android:name=".activity.WeatherActivity_" />
         <activity android:name=".activity.ChooseActivity_" />
+        <activity android:name=".activity.PictureActivity_" />
 
         <!-- 友盟统计 -->
         <meta-data android:value="577d1a3267e58e2f1c00503c" android:name="UMENG_APPKEY"></meta-data>
