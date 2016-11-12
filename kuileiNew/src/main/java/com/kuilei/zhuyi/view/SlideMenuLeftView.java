@@ -8,6 +8,7 @@ import com.kuilei.zhuyi.R;
 import com.kuilei.zhuyi.activity.BaseActivity;
 import com.kuilei.zhuyi.activity.MoreActivity_;
 import com.kuilei.zhuyi.activity.PictureActivity_;
+import com.kuilei.zhuyi.activity.VideoActivity_;
 import com.kuilei.zhuyi.activity.WeatherActivity_;
 import com.kuilei.zhuyi.initview.SlidingMenuView;
 
@@ -35,7 +36,7 @@ public class SlideMenuLeftView extends LinearLayout {
 
     @Click(R.id.video)
     public void enterVideo(View view) {
-      //  context.openActivity(VideoActivity_.class);
+        context.openActivity(VideoActivity_.class);
         isShow();
     }
 

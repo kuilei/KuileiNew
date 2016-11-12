@@ -21,7 +21,6 @@
             android:id="@+id/redian"
             style="@style/common_top"
             android:checked="true"
-
         android:text="@string/redian" />
 
         <RadioButton

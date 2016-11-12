@@ -31,8 +31,8 @@ public class OkHttpUtil {
     public OkHttpUtil(OkHttpClient okHttpClient) {
         if (okHttpClient == null) {
             mOkHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.SECONDS)
-                    .readTimeout(20, TimeUnit.SECONDS)
+                    .connectTimeout(100, TimeUnit.SECONDS)
+                    .readTimeout(30, TimeUnit.SECONDS)
                     .build();
             mDelivery = new Handler(Looper.getMainLooper());
         }else {
@@ -78,6 +78,21 @@ public class OkHttpUtil {
         Logger.w(FootBallFragment.class,"getAsString start");
         Response execute = _getAsyn(url);
         String str = new String(execute.body().bytes(),"UTF-8");
+        Logger.w(FootBallFragment.class,"getAsString end " + str);
+        return str;
+    }
+
+    /**
+     * 同步get
+     * @param url
+     * @return
+     * @throws IOException
+     */
+    private String _getJsString(String url) throws IOException {
+        Logger.w(FootBallFragment.class,"getAsString start");
+        Response execute = _getAsyn(url);
+        String str = execute.body().string();
+        Logger.w(FootBallFragment.class,"getAsString end " + str);
         return str;
     }
 
@@ -154,6 +169,10 @@ public class OkHttpUtil {
 
     public static String getAsString(String url) throws IOException {
         return getInstance()._getAsString(url);
+    }
+
+    public static String getJsString(String url) throws IOException {
+        return getInstance()._getJsString(url);
     }
 
     public static void getAsyn(String url, ResultCallback callback) {

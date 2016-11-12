@@ -32,12 +32,33 @@ public class BaseFragment extends Fragment {
     }
 
 
+    public String getPhotosUrl(String index) {
+        String urlString = Url.TuJi + index + Url.TuJiEnd;
+        return urlString;
+    }
+
+    public String getReDianPicsUrl(String index) {
+        String urlString = Url.TuPianReDian + index + Url.TuJiEnd;
+        return urlString;
+    }
+
+
+    public String getDuJiaPicsUrl(String index) {
+        String urlString = Url.TuPianDuJia + index + Url.TuJiEnd;
+        return urlString;
+    }
+
     public boolean isNullString(String imgUrl) {
 
         if (StringUtils.isEmpty(imgUrl)) {
             return true;
         }
         return false;
+    }
+
+    public String getVideoUrl(String index, String videoId) {
+        String urlString = Url.Video + videoId + Url.VideoCenter + index + Url.videoEndUrl;
+        return urlString;
     }
 
 }

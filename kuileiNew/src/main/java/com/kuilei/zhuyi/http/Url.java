@@ -25,8 +25,30 @@ public class Url {
     // 科技
     public static final String KeJiId = "T1348649580692";
 
-
+    // 图集
+    public static final String TuJi = host + "photo/api/morelist/0096/4GJ60096/";// 42358.json
+    // 图集end
+    public static final String TuJiEnd = ".json";
+    // 热点42577
+    public static final String TuPianReDian = host + "photo/api/morelist/0096/54GI0096/";
+    // 独家42010
+    public static final String TuPianDuJia = host + "photo/api/morelist/0096/54GJ0096/";
 
     // 天气预报url
     public static final String WeatherHost = "http://wthrcdn.etouch.cn/weather_mini?city=";
+
+
+
+    // 视频 http://c.3g.163.com/nc/video/list/V9LG4B3A0/n/10-10.html
+    public static final String Video = host + "nc/video/list/";
+    public static final String VideoCenter = "/n/";
+    public static final String videoEndUrl = "-10.html";
+    // 热点视频
+    public static final String VideoReDianId = "V9LG4B3A0";
+    // 娱乐视频
+    public static final String VideoYuLeId = "V9LG4CHOR";
+    // 搞笑视频
+    public static final String VideoGaoXiaoId = "V9LG4E6VR";
+    // 精品视频
+    public static final String VideoJingPinId = "00850FRB";
 }

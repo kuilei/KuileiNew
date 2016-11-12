@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kuilei.zhuyi">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,6 +18,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
         android:name=".App"
+        tools:replace="android:icon, android:theme, android:label"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -38,6 +40,8 @@
         <activity android:name=".activity.WeatherActivity_" />
         <activity android:name=".activity.ChooseActivity_" />
         <activity android:name=".activity.PictureActivity_" />
+        <activity android:name=".activity.VideoActivity_" />
+        <activity android:name=".activity.VideoPlayActivity_" />
 
         <!-- 友盟统计 -->
         <meta-data android:value="577d1a3267e58e2f1c00503c" android:name="UMENG_APPKEY"></meta-data>
