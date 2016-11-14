@@ -60,6 +60,8 @@ public class FootBallFragment extends BaseFragment implements SwipeRefreshLayout
     protected List<NewModle> listsModles;
     private boolean isRefresh = false;
 
+    private String mUrl;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -87,7 +89,6 @@ public class FootBallFragment extends BaseFragment implements SwipeRefreshLayout
         animationAdapter.setAbsListView(mListView);
         mListView.setAdapter(animationAdapter);
         loadData(getCommonUrl(index + "",Url.FootId));
-//        loadData(getNewUrl(index + ""));
         mListView.setOnBottomListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +103,7 @@ public class FootBallFragment extends BaseFragment implements SwipeRefreshLayout
 
     protected void loadData(String url) {
         Logger.w(TAG,"loadData");
+        mUrl = url;
         if (getMyActivity().hasNetWork()) {
             loadNewList(url);
             //  getMyActivity().showShortToast("show information");
@@ -214,4 +216,5 @@ public class FootBallFragment extends BaseFragment implements SwipeRefreshLayout
     public void onSliderClick(BaseSliderView slider) {
 
     }
+
 }

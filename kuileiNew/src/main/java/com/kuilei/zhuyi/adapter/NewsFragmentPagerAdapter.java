@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.kuilei.zhuyi.utils.Logger;
+
 import java.util.ArrayList;
 
 /**
@@ -58,6 +60,7 @@ public class NewsFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        Logger.w(NewsFragmentPagerAdapter.class,"fragment = " + fragments.size() + "  position = " + position);
         if (fragments.size() <= position)
         {
             position = position % fragments.size();

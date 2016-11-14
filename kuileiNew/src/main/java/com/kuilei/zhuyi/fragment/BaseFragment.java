@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.kuilei.zhuyi.activity.BaseActivity;
 import com.kuilei.zhuyi.http.Url;
+import com.kuilei.zhuyi.utils.OkHttpUtil;
 import com.kuilei.zhuyi.utils.StringUtils;
 
 /**
@@ -60,5 +61,10 @@ public class BaseFragment extends Fragment {
         String urlString = Url.Video + videoId + Url.VideoCenter + index + Url.videoEndUrl;
         return urlString;
     }
+
+    public void callHttp(String url) {
+        OkHttpUtil.getInstance().callHttp(url);
+    }
+
 
 }

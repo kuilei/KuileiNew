@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.kuilei.zhuyi.R;
@@ -45,8 +46,8 @@ public class DetailsActivity extends BaseActivity implements ImageLoadingListene
     protected TextView newTime;
     @ViewById(R.id.wb_details)
     protected HtmlTextView webView;
-    // @ViewById(R.id.progressBar)
-    // protected ProgressBar progressBar;
+     @ViewById(R.id.progressBar)
+     protected ProgressBar progressBar;
     @ViewById(R.id.progressPieView)
     protected ProgressPieView mProgressPieView;
     @ViewById(R.id.new_img)

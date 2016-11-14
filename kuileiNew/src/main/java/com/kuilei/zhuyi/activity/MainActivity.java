@@ -17,7 +17,20 @@ import com.kuilei.zhuyi.R;
 import com.kuilei.zhuyi.adapter.NewsFragmentPagerAdapter;
 import com.kuilei.zhuyi.bean.ChannelItem;
 import com.kuilei.zhuyi.bean.ChannelManage;
+import com.kuilei.zhuyi.fragment.BaseMainFragment;
+import com.kuilei.zhuyi.fragment.CaiJingFragment_;
+import com.kuilei.zhuyi.fragment.CaiPiaoFragment_;
+import com.kuilei.zhuyi.fragment.DianYingFragment_;
+import com.kuilei.zhuyi.fragment.FootBallFragment_;
+import com.kuilei.zhuyi.fragment.JiaoYuFragment_;
+import com.kuilei.zhuyi.fragment.KeJiFragment_;
+import com.kuilei.zhuyi.fragment.LunTanFragment_;
+import com.kuilei.zhuyi.fragment.NBAFragment_;
 import com.kuilei.zhuyi.fragment.NewsFragment_;
+import com.kuilei.zhuyi.fragment.ShuMaFragment_;
+import com.kuilei.zhuyi.fragment.TiYuFragment_;
+import com.kuilei.zhuyi.fragment.YiDongFragment_;
+import com.kuilei.zhuyi.fragment.YuLeFragment_;
 import com.kuilei.zhuyi.initview.SlidingMenuView;
 import com.kuilei.zhuyi.utils.BaseTools;
 import com.kuilei.zhuyi.utils.Logger;
@@ -166,12 +179,72 @@ public class MainActivity extends BaseActivity {
     }
 
      private Fragment initFragment(String channelName) {
-      //   if (channelName.equals("head title")) {
-      //       return new NewsFragment_();
-     //    } else if (channelName.equals("football")) {
-//             return new EntertainFragment_();
-     //    }
-         return new NewsFragment_();
+         if (channelName.equals("头条")) {
+             newfragment = new NewsFragment_();
+         } else if (channelName.equals("足球")) {
+             newfragment = new FootBallFragment_();
+         } else if (channelName.equals("娱乐")) {
+             newfragment = new YuLeFragment_();
+         } else if (channelName.equals("体育")) {
+             newfragment = new TiYuFragment_();
+         } else if (channelName.equals("财经")) {
+             newfragment = new CaiJingFragment_();
+         } else if (channelName.equals("科技")) {
+             newfragment = new KeJiFragment_();
+         } else if (channelName.equals("电影")) {
+             newfragment = new DianYingFragment_();
+         } else if (channelName.equals("汽车")) {
+//             newfragment = new QiCheFragment_();
+         } else if (channelName.equals("笑话")) {
+//             newfragment = new XiaoHuaFragment_();
+         } else if (channelName.equals("时尚")) {
+//             newfragment = new ShiShangFragment_();
+         } else if (channelName.equals("北京")) {
+//             newfragment = new BeiJingFragment_();
+         } else if (channelName.equals("军事")) {
+//             newfragment = new JunShiFragment_();
+         } else if (channelName.equals("房产")) {
+//             newfragment = new FangChanFragment_();
+         } else if (channelName.equals("游戏")) {
+//             newfragment = new YouXiFragment_();
+         } else if (channelName.equals("情感")) {
+//             newfragment = new QinGanFragment_();
+//         } else if (channelName.equals("精选")) {
+//             newfragment = new JingXuanFragment_();
+         } else if (channelName.equals("电台")) {
+//             newfragment = new DianTaiFragment_();
+         } else if (channelName.equals("图片")) {
+//             newfragment = new TuPianFragment_();
+         } else if (channelName.equals("NBA")) {
+             newfragment = new NBAFragment_();
+         } else if (channelName.equals("数码")) {
+             newfragment = new ShuMaFragment_();
+         } else if (channelName.equals("移动")) {
+             newfragment = new YiDongFragment_();
+         } else if (channelName.equals("彩票")) {
+             newfragment = new CaiPiaoFragment_();
+         } else if (channelName.equals("教育")) {
+             newfragment = new JiaoYuFragment_();
+         } else if (channelName.equals("论坛")) {
+             newfragment = new LunTanFragment_();
+         } else if (channelName.equals("旅游")) {
+//             newfragment = new LvYouFragment_();
+         } else if (channelName.equals("手机")) {
+//             newfragment = new ShouJiFragment_();
+         } else if (channelName.equals("博客")) {
+//             newfragment = new BoKeFragment_();
+         } else if (channelName.equals("社会")) {
+//             newfragment = new SheHuiFragment_();
+         } else if (channelName.equals("家居")) {
+//             newfragment = new JiaJuFragment_();
+         } else if (channelName.equals("暴雪")) {
+//             newfragment = new BaoXueYouXiFragment_();
+         } else if (channelName.equals("亲子")) {
+//             newfragment = new QinZiFragment_();
+         } else if (channelName.equals("CBA")) {
+//             newfragment = new CBAFragment_();
+         }
+         return newfragment;
      }
 
     private void initTabColumn() {
@@ -260,6 +333,9 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onPageSelected(int position) {
             mViewPager.setCurrentItem(position);
+            if (fragments.get(position) instanceof BaseMainFragment)
+            ((BaseMainFragment)fragments.get(position)).callHttp();
+
             selectTab(position);
         }
         /**

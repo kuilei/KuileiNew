@@ -8,6 +8,7 @@ import com.kuilei.zhuyi.fragment.FootBallFragment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -28,6 +29,8 @@ public class OkHttpUtil {
 
     private static OkHttpUtil mInstance;
 
+    private HashMap mCallMap;
+
     public OkHttpUtil(OkHttpClient okHttpClient) {
         if (okHttpClient == null) {
             mOkHttpClient = new OkHttpClient.Builder()
@@ -35,6 +38,7 @@ public class OkHttpUtil {
                     .readTimeout(30, TimeUnit.SECONDS)
                     .build();
             mDelivery = new Handler(Looper.getMainLooper());
+            mCallMap = new HashMap();
         }else {
             mOkHttpClient = okHttpClient;
         }
@@ -62,8 +66,9 @@ public class OkHttpUtil {
      * @throws IOException
      */
     private Response _getAsyn(String url) throws IOException {
-        final Request request = new Request.Builder().url(url).build();
+        final Request request = new Request.Builder().tag(url).url(url).build();
         Call call = mOkHttpClient.newCall(request);
+        mCallMap.put(url,call);
         Response execute = call.execute();
         return execute;
     }
@@ -78,6 +83,9 @@ public class OkHttpUtil {
         Logger.w(FootBallFragment.class,"getAsString start");
         Response execute = _getAsyn(url);
         String str = new String(execute.body().bytes(),"UTF-8");
+        if (mCallMap.containsKey(url)) {
+            mCallMap.remove(url);
+        }
         Logger.w(FootBallFragment.class,"getAsString end " + str);
         return str;
     }
@@ -183,6 +191,20 @@ public class OkHttpUtil {
         return getInstance()._getAsInputStream(url);
     }
 
+    public Call getCallMap(String url) {
+        if (mCallMap != null)
+        return (Call) mCallMap.get(url);
+        return null;
+    }
+
+    public void callHttp(String url) {
+        if (mCallMap != null) {
+            if (mCallMap.get(url) != null) {
+                ((Call)mCallMap.get(url)).cancel();
+                mCallMap.remove(url);
+            }
+        }
+    }
 
 
 //    public static String getByHttpClient(Context context, String strUrl) throws Exception {

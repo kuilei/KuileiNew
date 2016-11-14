@@ -256,6 +256,7 @@ public class ChannelActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     public void finish() {
         super.finish();
+        Logger.w(ChannelActivity.class,"isListChanged = " + userAdapter.isListChanged());
         if (userAdapter.isListChanged()) {
             MainActivity_.isChange = true;
             Logger.w(TAG,"channelActivity finish data change.");

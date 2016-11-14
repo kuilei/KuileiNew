@@ -140,7 +140,7 @@ public class PictureReDianFragment extends BaseFragment implements
             Logger.w(TAG,"result = " + result);
             if (!StringUtils.isEmpty(result)) {
 
-//                getResult(result);
+                getResult(result);
             } else {
                 swipeLayout.setRefreshing(false);
             }

@@ -63,7 +63,7 @@ public class ChannelManage {
         defaultOtherChannels.add(new ChannelItem(29, "家居", 23, 0));
         defaultOtherChannels.add(new ChannelItem(30, "暴雪", 24, 0));
 
-        defaultUserChannels.add(new ChannelItem(31, "亲子", 25, 0));
+//        defaultUserChannels.add(new ChannelItem(31, "亲子", 25, 0));
     }
 
     private ChannelManage(SQLHelper paramDBHelper) throws SQLException

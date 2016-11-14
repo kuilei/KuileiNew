@@ -2,6 +2,7 @@ package com.kuilei.zhuyi.activity;
 
 import android.net.Uri;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -11,7 +12,9 @@ import com.kuilei.zhuyi.R;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.WindowFeature;
 
 import io.vov.vitamio.LibsChecker;
 import io.vov.vitamio.MediaPlayer;
@@ -21,6 +24,10 @@ import io.vov.vitamio.widget.VideoView;
 /**
  * Created by lenovog on 2016/11/12.
  */
+@WindowFeature({
+        Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS
+})
+@Fullscreen
 @EActivity(R.layout.activity_play_videobuffer)
 public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnInfoListener,
         MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnPreparedListener {

@@ -20,7 +20,7 @@ public class Options {
                 // 设置图片加载/解码过程中错误时候显示的图片
                 .showImageOnFail(R.mipmap.base_article_bigimage)
                 // 设置下载的图片是否缓存在内存中
-                .cacheInMemory(true)
+                .cacheInMemory(false)
                 // 设置下载的图片是否缓存在SD卡中
                 .cacheOnDisc(true)
                 //设置图片的编码方式显示
